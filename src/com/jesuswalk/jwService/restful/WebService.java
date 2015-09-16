@@ -29,10 +29,10 @@ public class WebService {
 	private static Map<String, Person> persons = new HashMap<String, Person>();
 	
 	@GET
-	@Path("/test")
+	@Path("/retrieveall")
 	@Produces("application/json")
-	public Response data() throws JSONException {
-		String result = "Failed";
+	public Response getAll() throws JSONException {
+		String result = "Success";
 		
 		MongoCollection<Document> collection = MongoConnection.getCollection("Person");
 		FindIterable<Document> docs = collection.find();
@@ -42,28 +42,76 @@ public class WebService {
 			
 		return Response.status(200).entity(result).build();
 	}
-	
-	@Path("{json}")
-	@GET	
+		
+	@GET
+	@Path("/retrievestudent")
 	@Produces("application/json")
-	public Response createdata(@PathParam("json") String json) throws JSONException {
+	public Response getStudents() throws JSONException {
 		String result = "Success";
 		
-		MongoCollection<Document> collection = MongoConnection.getCollection("Person");		
-		Document doc = Document.parse(json);
-		collection.insertOne(doc);
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");
+		FindIterable<Document> docs = collection.find(); //MUST ADD PARAMETERS
+		for (Document doc : docs) {
+			result += doc.toJson();
+		}
+			
+			
+		return Response.status(200).entity(result).build();
+	}
+	
+	@GET
+	@Path("/retrievestaff")
+	@Produces("application/json")
+	public Response getStaffs() throws JSONException {
+		String result = "Success";
+		
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");
+		FindIterable<Document> docs = collection.find();//MUST ADD PARAMETERS
+		for (Document doc : docs) {
+			result += doc.toJson();
+		}
+			
+		return Response.status(200).entity(result).build();
+	}
+	
+	@GET
+	@Path("/retrievecounselors")
+	@Produces("application/json")
+	public Response getCounselors() throws JSONException {
+		String result = "Success";
+		
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");
+		FindIterable<Document> docs = collection.find();//MUST ADD PARAMETERS
+		for (Document doc : docs) {
+			result += doc.toJson();
+		}
 			
 		return Response.status(200).entity(result).build();
 	}
 	
 	@POST
-	@Path("/insert")
+	@Path("/insertone")
 	@Consumes("application/json")
-	public Response createput(String person) throws JSONException {
-		String result = "Failed";
-		if(person != null)
-			result = person;	
+	public Response insert(String person) throws JSONException {
+		String result = "Success";
 		
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");		
+		Document doc = Document.parse(person);
+		collection.insertOne(doc);
+		
+		
+		return Response.status(200).entity(result).build();
+	}
+	
+	@POST
+	@Path("/insertmany")
+	@Consumes("application/json")
+	public Response insertmany(String persons) throws JSONException {
+		String result = "Success";
+		
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");		
+		Document doc = Document.parse(persons);
+		collection.insertOne(doc);
 		
 		
 		return Response.status(200).entity(result).build();
