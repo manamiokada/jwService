@@ -18,10 +18,12 @@ import org.mongodb.morphia.Datastore;
 
 import com.jesuswalk.jwService.database.MongoConnection;
 import com.jesuswalk.jwService.model.*;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.util.JSON;
+
 
 @Path("/webservice")
 public class WebService {
@@ -39,6 +41,21 @@ public class WebService {
 		for (Document doc : docs) {
 			result += doc.toJson();
 		}
+			
+		return Response.status(200).entity(result).build();
+	}
+	
+	@GET
+	@PathParam("{id}")
+	@Path("/retrieveone/{id}")
+	@Produces("application/json")
+	public Response getOne(@PathParam("id") String ID) throws JSONException {
+		String result = "Success";
+		BasicDBObject search = new BasicDBObject();
+		search.put("_id", ID);
+		MongoCollection<Document> collection = MongoConnection.getCollection("Person");
+		FindIterable<Document> docs = collection.find(search);
+		result = docs.first().toJson();
 			
 		return Response.status(200).entity(result).build();
 	}
