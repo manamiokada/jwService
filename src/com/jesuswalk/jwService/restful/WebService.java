@@ -14,10 +14,8 @@ import javax.ws.rs.core.Response;
 
 import org.bson.Document;
 import org.json.JSONException;
-import org.mongodb.morphia.Datastore;
 
 import com.jesuswalk.jwService.database.MongoConnection;
-import com.jesuswalk.jwService.model.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
@@ -28,7 +26,6 @@ import com.mongodb.util.JSON;
 @Path("/webservice")
 public class WebService {
 	
-	private static Map<String, Person> persons = new HashMap<String, Person>();
 	
 	@GET
 	@Path("/retrieveall")
