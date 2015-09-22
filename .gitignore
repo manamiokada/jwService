@@ -42,3 +42,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /target/m2e-wtp/web-resources/META-INF/maven/jwService/jwService/pom.properties
+/target
+/.classpath
